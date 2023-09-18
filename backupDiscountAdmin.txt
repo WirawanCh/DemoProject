@@ -1,0 +1,173 @@
+<template>
+  <v-app>
+    <v-row justify="center" class="ma-4">
+      <v-col>
+        <h2 class="text-center">IMPORT CSV FILE</h2>
+        <div class="mt-10">
+          <v-row>
+            <v-col cols="6">
+              <vue-csv-import v-model="mappedCsv" :fields="fields">
+                <vue-csv-errors></vue-csv-errors>
+                <div>
+                  <vue-csv-input></vue-csv-input>
+                </div>
+                <vue-csv-map hidden></vue-csv-map>
+              </vue-csv-import>
+            </v-col>
+
+            <v-col cols="6">
+              
+              <v-btn color="primary" @click="send()"> Submit </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+        <!-- <pre>{{ mappedCsv }}</pre> -->
+        
+        <v-table v-if="mappedCsv">
+          <thead>
+            <tr>
+              <th class="text-left">Model</th>
+              <th class="text-left">Description</th>
+              <th class="text-left">Brand</th>
+              <th class="text-left">Product Group</th>
+              <th class="text-left">Product Group Detail</th>
+              <th class="text-left">TH Distributor Discount Class</th>
+              <th class="text-left">Price List</th>
+              <th class="text-left">O</th>
+              <th class="text-left">C</th>
+              <th class="text-left">B</th>
+              <th class="text-left">A</th>
+              <th class="text-left">S</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr v-for="(item, index) in mappedCsv.slice(1)" :key="index">
+              <td class="text-left">{{ item.Model }}</td>
+              <td class="text-left">{{ item.Description }}</td>
+              <td class="text-left">{{ item.Brand }}</td>
+              <td class="text-left">{{ item.ProductGroup }}</td>
+              <td class="text-left">{{ item.ProductGroupDetail }}</td>
+              <td class="text-left">{{ item.THDistributorDiscountClass }}</td>
+              <td class="text-left">{{ item.PriceList }}</td>
+              <td class="text-left">{{ item.O }}</td>
+              <td class="text-left">{{ item.C }}</td>
+              <td class="text-left">{{ item.B }}</td>
+              <td class="text-left">{{ item.A }}</td>
+              <td class="text-left">{{ item.S }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
+  </v-app>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "App",
+  data() {
+    return {
+      value: 10,
+      bufferValue: 20,
+      interval: 0,
+      loading: false,
+      progressBar: true,
+      dialog: false,
+
+      headers: [
+        { title: "Model", align: "start", sortable: true, key: "Model" },
+        { title: "Description", key: "Description", search: true },
+        { title: "Brand", key: "Brand" },
+        { title: "Product Group", key: "ProductGroup" },
+        { title: "Product Group Detail", key: "ProductGroupDetail" },
+        { title: "TH Distributor Discount Class", key: "THDistributorDiscountClass" },
+        { title: "Price List", key: "PriceList" },
+        { title: "O", key: "O" },
+        { title: "C", key: "C" },
+        { title: "B", key: "B" },
+        { title: "A", key: "A" },
+        { title: "S", key: "S" },
+      ],
+
+      mappedCsv: null,
+      fields: {
+        Model: { require: false, label: "Model" },
+        Description: { require: false, label: "Description" },
+        Brand: { require: false, label: "Brand" },
+        ProductGroup: { require: false, label: " ProductGroup " },
+        ProductGroupDetail: { require: false, label: " ProductGroupDetail" },
+        THDistributorDiscountClass: {
+          require: false,
+          label: "THDistributorDiscountClass",
+        },
+        PriceList: { require: false, label: "PriceList" },
+        O: { require: false, label: "O" },
+        C: { require: false, label: "C" },
+        B: { require: false, label: "B" },
+        A: { require: false, label: "A" },
+        S: { require: false, label: "S" },
+      },
+    };
+  },
+
+  watch: {
+    value(val) {
+      if (val < 100) return;
+
+      this.value = 0;
+      this.bufferValue = 10;
+      this.startBuffer();
+    },
+  },
+
+  mounted() {
+    this.startBuffer();
+  },
+
+  beforeUnmount() {
+    clearInterval(this.interval);
+  },
+
+  methods: {
+    send() {
+      axios
+        .post("http://192.168.100.94:7010/AddDiscount", {
+          //7010
+          data: this.mappedCsv,
+        })
+
+        .then(function (response) {
+          alert('success')
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    startBuffer() {
+      clearInterval(this.interval);
+
+      this.interval = setInterval(() => {
+        this.value += Math.random() * (15 - 5) + 5;
+        this.bufferValue += Math.random() * (15 - 5) + 6;
+      }, 1000);
+    },
+  },
+};
+</script>
+<style scoped>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.v-progress-linear {
+  display: block;
+  width: 100px;
+  margin: 0 auto;
+}
+</style>

@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  authserver:
+    image : authserver:1.01
+    container_name: authServer
+    build:
+      dockerfile: Dockerfile
+      context: ./auth
+    environment:
+      - TZ:Asia/Bangkok
+    ports:
+      - "8000:8000"
+    volumes:
+      - Authserver:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "100M"
+        max-file: "5"
+    networks:
+      - V2S
+    restart: always
+
+
+  Accountserver:
+    image : accountserver:1.01
+    container_name: accountserver
+    build:
+      dockerfile: Dockerfile
+      context: ./Account
+    environment:
+      - TZ:Asia/Bangkok
+    ports:
+      - "7010:7010"
+    volumes:
+      - Accountserver:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "100M"
+        max-file: "5"
+    networks:
+      - V2S
+    restart: always
+
+volumes:
+  Authserver:
+  Customerserver:
+  Accountserver:
+networks:
+ V2S:
+    driver: bridge
