@@ -10,10 +10,7 @@ import VueApexCharts from 'vue3-apexcharts'
 import VueSpeedometer from "vue-speedometer";
 
 
-// import Vuetify from "vuetify";
-
-
-
+import 'vuetify/dist/vuetify.min.css';
 
 
 
@@ -23,6 +20,8 @@ createApp(App)
 .use(registerPlugins)
 .use(UseCSVButton)
 .use(VueSpeedometer)
+
+
 
 .component('EasyDataTable', Vue3EasyDataTable)
 

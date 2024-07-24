@@ -1,61 +1,68 @@
 <template>
-  <div  v-if="$route.path !== '/Login'">
-    <v-layout class="rounded rounded-md"  v-if="$route.path !== '/Login'">
-      <v-navigation-drawer color="#363A57" expand-on-hover v-model="drawer" hide-overlay rail permanent>
-     
+  <div v-if="$route.path !== '/Login'">
+    <v-layout class="rounded rounded-md" v-if="$route.path !== '/Login'">
+      <v-navigation-drawer
+        color="#363A57"
+        expand-on-hover
+        v-model="drawer"
+        hide-overlay
+        rail
+        permanent
+      >
         <!-- <span class="text-white">
           {{ this.Userdata.name }} {{ this.Userdata.surname }}
           </span>
         <v-divider></v-divider> -->
-          <p class="text-center text-white mt-10">Demo</p>
+        <p class="text-center text-white mt-10">Demo</p>
+
+        <v-divider></v-divider>
+        <p class="mt-5"></p>
+        <v-list density="compact" nav>
+          <v-list-item value="Factorykpi" to="/">
+            <v-icon color="white">mdi-view-quilt</v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >FactoryKPI</v-text
+            >
+          </v-list-item>
+
+
+          <v-list-item value="Carbon" to="/Carbon">
+            <v-icon color="white">mdi-thermometer</v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >CO2</v-text
+            >
+          </v-list-item>
+
+          <v-list-item value="Spoilage" to="/Spoilage">
+            <v-icon color="white">mdi-fire</v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >Spoilage</v-text
+            >
+          </v-list-item>
+
+          <v-list-item href="http://localhost:3088/d/b52fff1e-76a3-464d-82e7-1103612f8ed5/oee-dashboaed?orgId=1&from=now-5m&to=now"   variant="plain" target="_blank">
+            <v-icon color="white">mdi-monitor-multiple </v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >OEEGrafana</v-text
+            >
+          </v-list-item>
+
           <v-divider></v-divider>
-       <p class="mt-5"></p> <v-list density="compact" nav>
-          <v-list-item 
-            v-if="this.roleauth.includes('OEE') "
-            value="OEE"
-            to="/"
-          >
-          <v-icon color="white" >mdi-home </v-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white">OEE</v-text>
+
+          <v-list-item value="Admin" to="/Admin">
+            <v-icon color="white">mdi-account</v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >Admin</v-text
+            >
           </v-list-item>
 
-          <v-list-item
-            v-if="this.roleauth.includes('Energy') "
-            value="Energy"
-            to="/Energy"
-          >
-          <v-icon color="white" >mdi-fire</v-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white">Energy</v-text>
+          <v-list-item @click="Logout">
+            <v-icon color="white">mdi-logout-variant</v-icon
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white"
+              >Logout</v-text
+            >
           </v-list-item>
-
-
-          <v-list-item
-          v-if="this.roleauth.includes('Inverter') "
-            value="Inverter"
-            to="/Inverter"
-          >
-          <v-icon color="white" >mdi-thermometer</v-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white">Inverter</v-text>
-          </v-list-item>
-
-
-          <v-divider></v-divider>
-
-          <v-list-item
-          v-if="this.roleauth.includes('Admin') "
-            value="Admin"
-            to="/Admin"
-          >
-          <v-icon color="white" >mdi-account</v-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white">Admin</v-text>
-          </v-list-item>
-
-
-          <v-list-item
-            v-if="$route.path !== '/Login'"
-            @click="Logout"
-          >
-          <v-icon color="white">mdi-logout-variant</v-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<v-text class="text-white">Logout</v-text>
-          </v-list-item>
-          
         </v-list>
-       
       </v-navigation-drawer>
 
       <!-- <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
@@ -64,7 +71,7 @@
     </v-layout>
   </div>
 </template>
-<script>
+<script >
 import axios from "axios";
 import jwt from "jsonwebtoken";
 //import  router  from '../router';
@@ -121,6 +128,9 @@ export default {
   },
 
   methods: {
+    toggleTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
     async readuser() {
       const AuthStore = useAuthStore();
       this.Userdata = AuthStore.$state.userdata;

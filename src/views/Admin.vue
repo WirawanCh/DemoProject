@@ -481,8 +481,9 @@ export default {
     RolesItem: [
       { pages: "OEE" },
       { pages: "Admin" },
-      { pages: "Energy" },
-      { pages: "Inverter" },
+      { pages: "Spoilage" },
+      { pages: "Carbon" },
+      { pages: "Factorykpi"}
    
     ],
     Rolescheck: [],

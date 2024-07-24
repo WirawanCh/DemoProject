@@ -9,7 +9,7 @@ const router = createRouter({
   
  routes : [
   {
-    path: '/',
+    path: '/OEE',
     name: 'OEE',
     meta: {
       auth: true,
@@ -56,13 +56,13 @@ const router = createRouter({
     
 
     {
-      path: '/Energy',
-      name: 'Energy',
+      path: '/Spoilage',
+      name: 'Spoilage',
       meta: {
         auth: true,
-        title: 'Energy'
+        title: 'Spoilage'
         },
-      component: () => import('../views/Energy.vue'),
+      component: () => import('../views/Spoilage.vue'),
 
       beforeEnter(to, from, next) {
         if(window.localStorage.token){
@@ -110,6 +110,76 @@ const router = createRouter({
               let pagesdecode = jwt.decode(res.data.Auth)
               let rolesdecode = jwt.decode(res.data.SecretID)
               if(pagesdecode.pages.includes("ManageData") || rolesdecode.user.role =="admin"){
+                  next();
+              }
+              else
+              {
+                  alert("User unauthorized, Please contact administrator");
+              }
+          })
+          .catch(err => {
+            localStorage.clear(); 
+            alert('Token Expired, Please login again'+'('+err+')')
+            next('/Login') 
+          })
+        }
+        else
+        {
+          alert("Please Login");
+          next('/Login');
+        }
+      }  
+    },
+
+    {
+      path: '/',
+      name: 'Factorykpi',
+    
+      component: () => import('../views/Factorykpi.vue'),
+
+      beforeEnter(to, from, next) {
+        if(window.localStorage.token){
+          axios.get(import.meta.env.VITE_APP_IPAUTH + "/user", {headers: {token: window.localStorage.token}})
+          .then(res=>
+          {
+              let pagesdecode = jwt.decode(res.data.Auth)
+              let rolesdecode = jwt.decode(res.data.SecretID)
+              if(pagesdecode.pages.includes("Factorykpi") || rolesdecode.user.role =="admin"){
+                  next();
+              }
+              else
+              {
+                  alert("User unauthorized, Please contact administrator");
+              }
+          })
+          .catch(err => {
+            localStorage.clear(); 
+            alert('Token Expired, Please login again'+'('+err+')')
+            next('/Login') 
+          })
+        }
+        else
+        {
+          alert("Please Login");
+          next('/Login');
+        }
+      }  
+    },
+
+    {
+      path: '/Carbon',
+      name: 'Carbon',
+    
+      component: () => import('../views/Carbon.vue'),
+
+      beforeEnter(to, from, next) {
+        if(window.localStorage.token){
+          axios.get(import.meta.env.VITE_APP_IPAUTH + "/user", {headers: {token: window.localStorage.token}})
+          .then(res=>
+          {
+              let pagesdecode = jwt.decode(res.data.Auth)
+              let rolesdecode = jwt.decode(res.data.SecretID)
+              if(pagesdecode.pages.includes("Carbon") || rolesdecode.user.role =="admin"){
                   next();
               }
               else
@@ -204,11 +274,6 @@ const router = createRouter({
       }  
     },
 
-   
-  
-
-    
-   
   ] 
 
 })

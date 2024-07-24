@@ -33,7 +33,7 @@
             max-width="100"
             src="../assets/Logo.png"
           ></v-img> -->
-                <h2 class="text-center text-indigo mt-15">V2S DEMO ENGINEERING</h2>
+                <h2 class="text-center text-indigo mt-15">MY DEMO </h2>
                 <h2 class="text-center text-blue mt-15">Log in</h2>
                 <div
                   class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"

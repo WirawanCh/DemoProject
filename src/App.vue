@@ -1,6 +1,7 @@
 
 <template>
  <appbar-component /> 
+ <toggle-component /> 
 
       <v-col sm="12" md="12" lg="12">
         <v-app :style="{background: $vuetify.theme.themes.light.background}">
@@ -13,14 +14,15 @@
 </template>
 <script >
 import appbar from './components/appbar.vue'
+import toggle from './components/Toggle.vue'
 // import navigation from './components/Navigation.vue'
 
 export default {
   name: "App",
 
   components: {
-    // "nav-component": navigation,
-    "appbar-component": appbar
+    "appbar-component": appbar,
+    "toggle-component": toggle
   },
 };
 
